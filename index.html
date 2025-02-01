@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свидание</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .options {
+            margin: 20px 0;
+        }
+        .option {
+            margin-bottom: 15px;
+        }
+        .option img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .time-picker {
+            margin: 20px 0;
+        }
+        input[type="datetime-local"] {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Хочешь пойти со мной на свидание?</h1>
+        <div class="options">
+            <div class="option">
+                <h3>Ужин в уютном ресторане</h3>
+                <img src="https://via.placeholder.com/350x200" alt="Ресторан">
+            </div>
+            <div class="option">
+                <h3>Прогулка в парке</h3>
+                <img src="https://via.placeholder.com/350x200" alt="Парк">
+            </div>
+            <div class="option">
+                <h3>Посещение музея</h3>
+                <img src="https://via.placeholder.com/350x200" alt="Музей">
+            </div>
+        </div>
+        <div class="time-picker">
+            <label for="datetime">Выбери время:</label>
+            <input type="datetime-local" id="datetime" name="datetime">
+        </div>
+        <button onclick="submitInvitation()">Пригласить</button>
+    </div>
+
+    <script>
+        function submitInvitation() {
+            const datetime = document.getElementById('datetime').value;
+            if (datetime) {
+                alert('Спасибо! Ваше приглашение отправлено на ' + datetime);
+                // Здесь можно добавить код для отправки данных на сервер
+            } else {
+                alert('Пожалуйста, выберите дату и время.');
+            }
+        }
+    </script>
+</body>
+</html>
