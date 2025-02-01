@@ -8,8 +8,8 @@
         /* Подключение шрифта Casagrande Reclame */
         @font-face {
             font-family: 'Casagrande Reclame';
-            src: url('fonts/kudry_weird-headline.otf') format('woff2'),
-                 url('fonts/kudry_weird-headline.otf') format('woff');
+            src: url('fonts/Coats Bold Italic.otf') format('woff2'),
+                 url('fonts/Coats Bold Italic.otf') format('woff');
             font-weight: normal;
             font-style: normal;
         }
@@ -90,7 +90,7 @@
 
         /* Эффект при выборе */
         .option input[type="checkbox"]:checked + label {
-            background: rgba(255, 105, 180, 0.8); /* Изменение фона при выборе */
+            background: rgba(0, 100, 0, 0.8); /* Изменение фона при выборе */
             color: #000;
         }
 
@@ -117,12 +117,12 @@
         }
 
         select:disabled {
-            background-color: #3a3a3a;
+            background-color: #696969;
             color: #888;
         }
 
         button {
-            background-color: #ff69b4; /* Розовый цвет кнопки */
+            background-color: #006400; /* Розовый цвет кнопки */
             color: #ffffff;
             border: none;
             padding: 15px 30px;
@@ -134,7 +134,7 @@
         }
 
         button:hover {
-            background-color: #ff1493; /* Темнее розовый при наведении */
+            background-color: #006400; /* Темнее розовый при наведении */
         }
 
         .success-message {
@@ -211,7 +211,7 @@
                 <div class="option">
                     <input type="checkbox" id="arcade" name="options" value="Игровые автоматы/аттракционы">
                     <label for="arcade">
-                        Игровые автоматы/аттракционы (знаю место на Южной на фото, либо Остров мечты)
+                        Игровые автоматы/аттракционы (знаю место на Южной, либо Остров мечты)
                     </label>
                     <img src="img\auto.jpg" alt="Игровые автоматы/аттракционы">
                 </div>
@@ -254,7 +254,7 @@
                     <option value="">--Выберите дату и время--</option>
                 </select>
             </div>
-            <button type="submit">Пригласить</button>
+            <button type="submit">Отправить</button>
             <div id="form-message"></div>
         </form>
     </div>
@@ -263,30 +263,48 @@
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
         (function(){
-            emailjs.init("YOUR_USER_ID"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
+            emailjs.init("hyg9PpKemFq4zy5eq"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
         })();
 
         // Определение доступных времен для каждого варианта
         const optionTimes = {
             "standup": [
-                "8 февраля в 18:00",
-                "8 февраля в 21:00",
-                "9 февраля в 18:00",
-                "9 февраля в 21:00",
-                "15 февраля в 18:00",
-                "15 февраля в 21:00",
-                "16 февраля в 18:00",
-                "16 февраля в 21:00"
+                "8 февраля",
+                // "8 февраля в 21:00",
+                "9 февраля",
+                // "9 февраля в 21:00",
+                "15 февраля",
+                // "15 февраля в 21:00",
+                "16 февраля"
+                // "16 февраля в 21:00"
             ],
             "musical_concert": [
-                "8 февраля в 19:00"
+                "8 февраля"
             ],
-            "exhibition": ["Any time"],
-            "arcade": ["Any time"],
-            "karting": ["Any time"],
-            "vr_outing": ["Any time"],
-            "walk": ["Any time"],
-            "pair_dancing": ["Any time"]
+            "exhibition": ["8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"],
+            "arcade": ["8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"],
+            "karting": ["8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"],
+            "vr_outing": ["8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"],
+            "walk": ["8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"],
+            "pair_dancing": ["8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"]
         };
 
         // Получение элементов формы
@@ -365,12 +383,12 @@
 
             // Валидация
             if (selectedOptions.length === 0) {
-                displayMessage('Пожалуйста, выберите хотя бы один вариант.', 'error');
+                displayMessage('Минимум 1 вариант', 'error');
                 return;
             }
 
             if (!selectedDatetime) {
-                displayMessage('Пожалуйста, выберите дату и время.', 'error');
+                displayMessage('Дата и время (можно и не тут)', 'error');
                 return;
             }
 
@@ -380,10 +398,10 @@
                 datetime: selectedDatetime,
             };
 
-            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            emailjs.send('service_smdj74c', 'template_cb6tk7i', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
-                    displayMessage('Ваше приглашение отправлено!', 'success');
+                    displayMessage('Информация принята, жди дальнейших инструкций!', 'success');
                     form.reset();
                     // После сброса формы обновляем доступные времена
                     updateAvailableTimes();
