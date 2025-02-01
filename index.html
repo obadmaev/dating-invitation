@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приглашение на свидание</title>
+    
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+    />
     <style>
         /* Подключение шрифта Casagrande Reclame */
         @font-face {
@@ -20,7 +25,6 @@
             color: #f0f0f0; /* Светлый текст */
             margin: 0;
             padding: 0;
-            /* Убираем flex-центрирование, чтобы позволить изображениям занимать всю ширину */
         }
 
         .container {
@@ -65,33 +69,44 @@
             display: none;
         }
 
-        /* Стилизация изображения */
-        .option img {
-            width: 100%; /* Полная ширина */
-            height: auto;
-            object-fit: cover;
-            display: block;
+        /* Стилизация Swiper внутри опции */
+        .option .swiper-container {
+            width: 100%;
+            height: 300px; /* Установите желаемую высоту */
         }
 
-        /* Наложение текста на изображение */
+        .option .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .option .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* Наложение текста на слайдер */
         .option label {
             position: absolute;
-            top: 50%;
+            bottom: 10px;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6); /* Полупрозрачный фон */
             color: #ffffff;
-            background: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для лучшей читаемости */
             padding: 10px 20px;
             border-radius: 5px;
-            font-size: 1.5em;
+            font-size: 1em;
             text-align: center;
-            width: 80%;
+            width: 90%;
         }
 
         /* Эффект при выборе */
         .option input[type="checkbox"]:checked + label {
-            background: rgba(0, 100, 0, 0.8); /* Изменение фона при выборе */
-            color: #FFFFFF;
+            background: rgba(255, 105, 180, 0.8); /* Изменение фона при выборе */
+            color: #000;
         }
 
         .time-picker {
@@ -122,7 +137,7 @@
         }
 
         button {
-            background-color: #000000; /*  цвет кнопки */
+            background-color: #ff69b4; /* Розовый цвет кнопки */
             color: #ffffff;
             border: none;
             padding: 15px 30px;
@@ -134,7 +149,7 @@
         }
 
         button:hover {
-            background-color: #006400; /* Темнее розовый при наведении */
+            background-color: #ff1493; /* Темнее розовый при наведении */
         }
 
         .success-message {
@@ -152,8 +167,13 @@
         /* Мобильные стили */
         @media (max-width: 800px) {
             .option label {
-                font-size: 1.2em;
-                width: 90%;
+                font-size: 0.9em;
+                width: 95%;
+                bottom: 5px;
+            }
+
+            .option .swiper-container {
+                height: 250px; /* Уменьшаем высоту на мобильных */
             }
         }
 
@@ -168,91 +188,263 @@
                 width: 100%;
             }
             .option label {
-                font-size: 1em;
+                font-size: 0.8em;
                 padding: 8px 16px;
+                bottom: 5px;
+            }
+
+            .option .swiper-container {
+                height: 200px; /* Уменьшаем высоту на очень мобильных */
             }
         }
 
+        /* Стилизация навигационных кнопок Swiper */
+        .swiper-button-next, .swiper-button-prev {
+            color: #ffffff;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ffffff;
+            opacity: 0.7;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #ff69b4;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Приглашение
-        </h1>
+        <h1>Приглашение</h1>
         <form id="invitation-form">
             <div class="options">
                 <h3>Предлагаю подобранные мной варианты (есть возможность выбрать несколько)</h3>
                 
+                
                 <div class="option">
                     <input type="checkbox" id="standup" name="options" value="Stand-up">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/sergei-kutergin-sergeich1.jpg" alt="Stand-up 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/sergei-kutergin-sergeich2.jpg" alt="Stand-up 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/sergei-kutergin-sergeich3.jpg" alt="Stand-up 3">
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="standup">
                         Stand-up: Сергеич Камеди Бар, на Stand-up я ни разу не выходил, но можно попробовать: выходные 18/21ч
                     </label>
-                    <img src="img\sergei-kutergin-sergeich.jpg" alt="Stand-up">
                 </div>
+                
                 
                 <div class="option">
                     <input type="checkbox" id="musical_concert" name="options" value="Музыкальный концерт">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/bigloveshow1.png" alt="Музыкальный концерт 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/bigloveshow2.png" alt="Музыкальный концерт 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/bigloveshow3.png" alt="Музыкальный концерт 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="musical_concert">
-                        Big Love Show 08.02 в 19:00, Билан, зиверт
+                        Big Love Show 08.02 в 19:00, Билан, Зиверт
                     </label>
-                    <img src="img\bigloveshow.png" alt="Музыкальный концерт">
                 </div>
+                
                 
                 <div class="option">
                     <input type="checkbox" id="exhibition" name="options" value="Выставка">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/moh1.jpg" alt="Выставка 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/moh2.jpg" alt="Выставка 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/moh3.jpg" alt="Выставка 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="exhibition">
                         Выставка: в Москве их куча пооткрывалось, как пример, выставка "Сады" в пространстве "Мох"
                     </label>
-                    <img src="img\moh.jpg" alt="Выставка">
                 </div>
 
+                
                 <div class="option">
-                    <input type="checkbox" id="exhibition" name="options" value="Театр">
+                    <input type="checkbox" id="theatr" name="options" value="Театр">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/theat1.webp" alt="Театр 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/theat2.webp" alt="Театр 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/theat3.webp" alt="Театр 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="theatr">
-                        Мюзикл "в Джазе только девушки 9/15 фев 19:00"
+                        Мюзикл "В Джазе только девушки" 9/15 фев 19:00
                     </label>
-                    <img src="img\theat.webp" alt="Театр">
                 </div>
+                
                 
                 <div class="option">
                     <input type="checkbox" id="arcade" name="options" value="Игровые автоматы/аттракционы">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/auto1.jpg" alt="Игровые автоматы/аттракционы 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/auto2.jpg" alt="Игровые автоматы/аттракционы 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/auto3.jpg" alt="Игровые автоматы/аттракционы 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="arcade">
                         Игровые автоматы/аттракционы (знаю место на Южной, либо Остров мечты)
                     </label>
-                    <img src="img\auto.jpg" alt="Игровые автоматы/аттракционы">
                 </div>
+                
                 
                 <div class="option">
                     <input type="checkbox" id="karting" name="options" value="Картинг">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/cart1.jpg" alt="Картинг 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/cart2.jpg" alt="Картинг 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/cart3.jpg" alt="Картинг 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="karting">
                         Картинг (тоже не был ни разу)
                     </label>
-                    <img src="img\cart.jpg" alt="Картинг">
                 </div>
+                
                 
                 <div class="option">
                     <input type="checkbox" id="vr_outing" name="options" value="Поход в VR">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/vr1.webp" alt="Поход в VR 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/vr2.webp" alt="Поход в VR 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/vr3.webp" alt="Поход в VR 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="vr_outing">
                         Поход в VR
                     </label>
-                    <img src="img\vr.webp" alt="Поход в VR">
                 </div>
+                
                 
                 <div class="option">
                     <input type="checkbox" id="walk" name="options" value="Прогулка">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/moscow1.webp" alt="Прогулка 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/moscow2.webp" alt="Прогулка 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/moscow3.webp" alt="Прогулка 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="walk">
                         Прогулка (можно фоток поделать на моментальную печать)
                     </label>
-                    <img src="img\moscow.webp" alt="Прогулка">
                 </div>
                 
+                
                 <div class="option">
-                    <input type="checkbox" id="pair_dancing" name="options" value="Свой вариант">
+                    <input type="checkbox" id="pair_dancing" name="options" value="Мастер-класс по парным танцам">
+                    
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="img/elon1.jpg" alt="Мастер-класс по парным танцам 1">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/elon2.jpg" alt="Мастер-класс по парным танцам 2">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="img/elon3.jpg" alt="Мастер-класс по парным танцам 3">
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                     <label for="pair_dancing">
                         Свой вариант
                     </label>
-                    <img src="img\elon.jpg" alt="Свой вариант">
                 </div>
             </div>
             <div class="time-picker">
@@ -267,54 +459,99 @@
     </div>
 
 
+    
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
+        // Инициализация EmailJS
         (function(){
-            emailjs.init("hyg9PpKemFq4zy5eq"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
+            emailjs.init("hyg9PpKemFq4zy5eq"); // Ваш User ID из EmailJS
         })();
+
+        // Функция для инициализации всех Swiper-инстанций
+        function initializeSwipers() {
+            const swipers = document.querySelectorAll('.swiper-container');
+            swipers.forEach(function(swiperContainer) {
+                new Swiper(swiperContainer, {
+                    loop: false,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    // Настройки адаптивности
+                    breakpoints: {
+                        320: {
+                            slidesPerView: 1,
+                        },
+                        640: {
+                            slidesPerView: 1,
+                        }
+                    }
+                });
+            });
+        }
+
+        // Вызов функции инициализации Swiper после загрузки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSwipers();
+        });
 
         // Определение доступных времен для каждого варианта
         const optionTimes = {
             "standup": [
                 "8 февраля",
-                // "8 февраля в 21:00",
                 "9 февраля",
-                // "9 февраля в 21:00",
                 "15 февраля",
-                // "15 февраля в 21:00",
                 "16 февраля"
-                // "16 февраля в 21:00"
             ],
             "musical_concert": [
                 "8 февраля"
             ],
-            "exhibition": ["8 февраля",
+            "exhibition": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"],
-                "theatr": [
+                "16 февраля"
+            ],
+            "theatr": [
                 "9 февраля",
-                "15 февраля"],
-            "arcade": ["8 февраля",
-                "9 февраля",
-                "15 февраля",
-                "16 февраля"],
-            "karting": ["8 февраля",
-                "9 февраля",
-                "15 февраля",
-                "16 февраля"],
-            "vr_outing": ["8 февраля",
+                "15 февраля"
+            ],
+            "arcade": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"],
-            "walk": ["8 февраля",
+                "16 февраля"
+            ],
+            "karting": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"],
-            "pair_dancing": ["8 февраля",
+                "16 февраля"
+            ],
+            "vr_outing": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"]
+                "16 февраля"
+            ],
+            "walk": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "pair_dancing": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ]
         };
 
         // Получение элементов формы
@@ -354,27 +591,18 @@
 
         // Функция для вычисления доступных времен
         function getAvailableTimes(selectedOptions) {
-            // Фильтруем варианты, которые имеют конкретные времена
-            const specificOptions = selectedOptions.filter(opt => !optionTimes[opt].includes("Any time"));
+            if (selectedOptions.length === 0) return [];
 
-            if (specificOptions.length === 0) {
-                // Если ни один выбранный вариант не имеет конкретного времени
-                return ["Any time"];
-            }
+            // Получаем массив доступных времен для каждого выбранного варианта
+            const selectedTimes = selectedOptions.map(opt => optionTimes[opt]);
 
-            // Получаем массив массивов доступных времен для каждого конкретного варианта
-            const specificTimesArrays = specificOptions.map(opt => optionTimes[opt]);
-
-            // Вычисляем пересечение всех доступных времен
-            let intersection = specificTimesArrays[0];
-            for(let i = 1; i < specificTimesArrays.length; i++) {
-                intersection = intersection.filter(time => specificTimesArrays[i].includes(time));
-            }
+            // Вычисляем пересечение всех массивов доступных времен
+            const intersection = selectedTimes.reduce((a, b) => a.filter(c => b.includes(c)));
 
             return intersection;
         }
 
-        // Добавление обработчиков событий для чекбоксов
+        // Добавляем обработчики событий для чекбоксов
         optionInputs.forEach(input => {
             input.addEventListener('change', updateAvailableTimes);
         });
