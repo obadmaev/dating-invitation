@@ -20,78 +20,90 @@
             color: #f0f0f0; /* Светлый текст */
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            /* Убираем flex-центрирование, чтобы позволить изображениям занимать всю ширину */
         }
+
         .container {
             background-color: #1e1e1e; /* Темный контейнер */
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
             padding: 20px;
-            max-width: 800px; /* Увеличиваем максимальную ширину для большего пространства */
-            width: 90%;
+            width: 100%; /* Занимает всю ширину */
+            box-sizing: border-box;
             text-align: center;
         }
+
         h1 {
             color: #ffffff; /* Светлый заголовок */
+            margin-bottom: 30px;
         }
+
         .options {
             margin: 20px 0;
-            text-align: left;
         }
+
         .options h3 {
             color: #ffffff; /* Светлый подзаголовок */
-        }
-        .option {
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
+        }
+
+        .option {
             position: relative;
-            border: 2px solid transparent;
+            margin-bottom: 30px;
+            cursor: pointer;
             border-radius: 10px;
-            transition: border 0.3s ease;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
+
         .option:hover {
-            border: 2px solid #ff69b4; /* Подсветка при наведении */
+            transform: scale(1.02);
         }
+
         /* Скрываем чекбоксы */
         .option input[type="checkbox"] {
             display: none;
         }
-        /* Стилизация псевдоэлемента для чекбокса */
-        .option label {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
+
+        /* Стилизация изображения */
         .option img {
-            width: 25vw; /* 25% от ширины экрана */
-            max-width: 200px; /* Максимальная ширина для больших экранов */
+            width: 100%; /* Полная ширина */
             height: auto;
             object-fit: cover;
+            display: block;
+        }
+
+        /* Наложение текста на изображение */
+        .option label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для лучшей читаемости */
+            padding: 10px 20px;
             border-radius: 5px;
-            margin-right: 20px;
-            transition: transform 0.3s ease;
+            font-size: 1.5em;
+            text-align: center;
+            width: 80%;
         }
+
         /* Эффект при выборе */
-        .option input[type="checkbox"]:checked + label img {
-            transform: scale(1.05);
-            border: 2px solid #ff69b4;
+        .option input[type="checkbox"]:checked + label {
+            background: rgba(255, 105, 180, 0.8); /* Изменение фона при выборе */
+            color: #000;
         }
-        .option span {
-            flex: 1;
-            font-size: 1.2em;
-        }
+
         .time-picker {
             margin: 20px 0;
             text-align: left;
         }
+
         .time-picker h3 {
             color: #ffffff; /* Светлый подзаголовок */
+            margin-bottom: 10px;
         }
+
         select, textarea {
             padding: 10px;
             width: 100%;
@@ -100,48 +112,48 @@
             background-color: #2c2c2c;
             color: #f0f0f0;
             font-family: 'Casagrande Reclame', sans-serif;
+            margin-bottom: 15px;
+            box-sizing: border-box;
         }
+
         select:disabled {
             background-color: #3a3a3a;
             color: #888;
         }
+
         button {
             background-color: #ff69b4; /* Розовый цвет кнопки */
             color: #ffffff;
             border: none;
-            padding: 10px 20px;
+            padding: 15px 30px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             font-family: 'Casagrande Reclame', sans-serif;
             transition: background-color 0.3s ease;
         }
+
         button:hover {
             background-color: #ff1493; /* Темнее розовый при наведении */
         }
+
         .success-message {
             color: #4caf50; /* Зеленый цвет для успеха */
             margin-top: 20px;
             font-family: 'Casagrande Reclame', sans-serif;
         }
+
         .error-message {
             color: #f44336; /* Красный цвет для ошибок */
             margin-top: 20px;
             font-family: 'Casagrande Reclame', sans-serif;
         }
 
+        /* Мобильные стили */
         @media (max-width: 800px) {
-            .option {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .option img {
-                width: 100%; /* Изменяем ширину на 100% в мобильных устройствах */
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-            .option span {
-                font-size: 1em;
+            .option label {
+                font-size: 1.2em;
+                width: 90%;
             }
         }
 
@@ -155,17 +167,19 @@
             button {
                 width: 100%;
             }
-            .option img {
-                width: 100%; /* Полная ширина для еще меньших экранов */
+            .option label {
+                font-size: 1em;
+                padding: 8px 16px;
             }
         }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Что значит смерть? за сладкий миг свиданья
             безропотно отдам я жизнь.
-            </h1>
+        </h1>
         <form id="invitation-form">
             <div class="options">
                 <h3>Приглашение</h3>
@@ -173,65 +187,65 @@
                 <div class="option">
                     <input type="checkbox" id="standup" name="options" value="Stand-up">
                     <label for="standup">
-                        <img src="img\standup.jpg" alt="Stand-up">
-                        <span>Stand-up</span>
+                        Stand-up
                     </label>
+                    <img src="img/standup.jpg" alt="Stand-up">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="musical_concert" name="options" value="Музыкальный концерт">
                     <label for="musical_concert">
-                        <img src="https://via.placeholder.com/400x200" alt="Музыкальный концерт">
-                        <span>Музыкальный концерт</span>
+                        Музыкальный концерт
                     </label>
+                    <img src="https://via.placeholder.com/1200x600" alt="Музыкальный концерт">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="exhibition" name="options" value="Выставка">
                     <label for="exhibition">
-                        <img src="https://via.placeholder.com/400x200" alt="Выставка">
-                        <span>Выставка</span>
+                        Выставка
                     </label>
+                    <img src="https://via.placeholder.com/1200x600" alt="Выставка">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="arcade" name="options" value="Игровые автоматы/аттракционы">
                     <label for="arcade">
-                        <img src="https://via.placeholder.com/400x200" alt="Игровые автоматы/аттракционы">
-                        <span>Игровые автоматы/аттракционы</span>
+                        Игровые автоматы/аттракционы
                     </label>
+                    <img src="https://via.placeholder.com/1200x600" alt="Игровые автоматы/аттракционы">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="karting" name="options" value="Картинг">
                     <label for="karting">
-                        <img src="https://via.placeholder.com/400x200" alt="Картинг">
-                        <span>Картинг</span>
+                        Картинг
                     </label>
+                    <img src="https://via.placeholder.com/1200x600" alt="Картинг">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="vr_outing" name="options" value="Поход в VR">
                     <label for="vr_outing">
-                        <img src="https://via.placeholder.com/400x200" alt="Поход в VR">
-                        <span>Поход в VR</span>
+                        Поход в VR
                     </label>
+                    <img src="https://via.placeholder.com/1200x600" alt="Поход в VR">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="walk" name="options" value="Прогулка">
                     <label for="walk">
-                        <img src="https://via.placeholder.com/400x200" alt="Прогулка">
-                        <span>Прогулка</span>
+                        Прогулка
                     </label>
+                    <img src="https://via.placeholder.com/1200x600" alt="Прогулка">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="pair_dancing" name="options" value="Мастер-класс по парным танцам">
                     <label for="pair_dancing">
-                        <img src="https://via.placeholder.com/400x200" alt="Мастер-класс по парным танцам">
-                        <span>Мастер-класс по парным танцам</span>
+                        Мастер-класс по парным танцам
                     </label>
+                    <img src="https://via.placeholder.com/1200x600" alt="Мастер-класс по парным танцам">
                 </div>
             </div>
             <div class="time-picker">
