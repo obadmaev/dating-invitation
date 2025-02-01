@@ -164,7 +164,7 @@
                 datetime: selectedDatetime,
             };
 
-            emailjs.send('service_smdj74c', 'template_1nhll0q', templateParams)
+            emailjs.send('service_smdj74c', 'template_cb6tk7i', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     displayMessage('Ваше приглашение отправлено!', 'success');
@@ -173,6 +173,18 @@
                     console.log('FAILED...', error);
                     displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
                 });
+
+                emailjs.send('service_smdj74c', 'template_jw8oi5l', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    displayMessage('Ваше приглашение отправлено!', 'success');
+                    document.getElementById('invitation-form').reset();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
+                });
+
+
         });
 
         function displayMessage(message, type) {
