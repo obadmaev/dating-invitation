@@ -71,7 +71,9 @@
             height: auto;
             object-fit: cover;
             display: block;
-            transition: box-shadow 0.3s ease; /* Плавный переход для подсветки */
+            transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для подсветки */
+            position: relative; /* Для применения z-index */
+            z-index: 1; /* Низкий z-index для изображения */
         }
 
         /* Наложение текста на изображение */
@@ -87,6 +89,7 @@
             font-size: 1.5em;
             text-align: center;
             width: 80%;
+            z-index: 2; /* Высокий z-index для метки */
         }
 
         /* Эффект при выборе */
@@ -95,9 +98,14 @@
             color: #FFFFFF;
         }
 
-        /* Подсветка выбранного изображения */
+        /* Усиленная подсветка выбранного изображения */
         .option input[type="checkbox"]:checked + label + img {
-            box-shadow: 0 0 0 8px #006400; /* Зеленый контур */
+            /* Фиксированная громоздкая зеленая рамка */
+            border: 10px solid #006400;
+            /* Лёгкое увеличение размера изображения при выборе */
+            transform: scale(0.95);
+            /* Лёгкий светящийся эффект */
+            box-shadow: 0 0 20px #006400;
         }
 
         .time-picker {
