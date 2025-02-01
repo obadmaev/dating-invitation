@@ -122,7 +122,7 @@
         }
 
         button {
-            background-color: #000000; /*  цвет кнопки */
+            background-color: #000000; /* цвет кнопки */
             color: #ffffff;
             border: none;
             padding: 15px 30px;
@@ -134,7 +134,7 @@
         }
 
         button:hover {
-            background-color: #006400; /* Темнее розовый при наведении */
+            background-color: #006400; /* Темнее зелёный при наведении */
         }
 
         .success-message {
@@ -147,6 +147,22 @@
             color: #f44336; /* Красный цвет для ошибок */
             margin-top: 20px;
             font-family: 'Casagrande Reclame', sans-serif;
+        }
+
+        /* Всплывающее окно для количества выбранных опций */
+        .selected-count {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: 'Casagrande Reclame', sans-serif;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            display: none; /* Скрыто по умолчанию */
+            z-index: 1000;
         }
 
         /* Мобильные стили */
@@ -177,18 +193,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>Приглашение
-        </h1>
+        <h1>Приглашение</h1>
         <form id="invitation-form">
             <div class="options">
-                <h3>Предлагаю подобранные мной варианты (есть возможность выбрать несколько), нужно нажать на картинку</h3>
+                <h3>Предлагаю подобранные мной варианты (есть возможность выбрать несколько)</h3>
                 
                 <div class="option">
                     <input type="checkbox" id="standup" name="options" value="Stand-up">
                     <label for="standup">
                         Stand-up: Сергеич Камеди Бар, на Stand-up я ни разу не выходил, но можно попробовать: выходные 18/21ч
                     </label>
-                    <img src="img\sergei-kutergin-sergeich.jpg" alt="Stand-up">
+                    <img src="img/sergei-kutergin-sergeich.jpg" alt="Stand-up">
                 </div>
                 
                 <div class="option">
@@ -196,7 +211,7 @@
                     <label for="musical_concert">
                         Big Love Show 08.02 в 19:00, Билан, зиверт
                     </label>
-                    <img src="img\bigloveshow.png" alt="Музыкальный концерт">
+                    <img src="img/bigloveshow.png" alt="Музыкальный концерт">
                 </div>
                 
                 <div class="option">
@@ -204,15 +219,15 @@
                     <label for="exhibition">
                         Выставка: в Москве их куча пооткрывалось, как пример, выставка "Сады" в пространстве "Мох"
                     </label>
-                    <img src="img\moh.jpg" alt="Выставка">
+                    <img src="img/moh.jpg" alt="Выставка">
                 </div>
 
                 <div class="option">
-                    <input type="checkbox" id="exhibition" name="options" value="Театр">
+                    <input type="checkbox" id="theatr" name="options" value="Театр">
                     <label for="theatr">
-                        Мюзикл "в Джазе только девушки 9/15 фев 19:00"
+                        Мюзикл "В Джазе только девушки 9/15 фев 19:00"
                     </label>
-                    <img src="img\theat.webp" alt="Театр">
+                    <img src="img/theat.webp" alt="Театр">
                 </div>
                 
                 <div class="option">
@@ -220,7 +235,7 @@
                     <label for="arcade">
                         Игровые автоматы/аттракционы (знаю место на Южной, либо Остров мечты)
                     </label>
-                    <img src="img\auto.jpg" alt="Игровые автоматы/аттракционы">
+                    <img src="img/auto.jpg" alt="Игровые автоматы/аттракционы">
                 </div>
                 
                 <div class="option">
@@ -228,7 +243,7 @@
                     <label for="karting">
                         Картинг (тоже не был ни разу)
                     </label>
-                    <img src="img\cart.jpg" alt="Картинг">
+                    <img src="img/cart.jpg" alt="Картинг">
                 </div>
                 
                 <div class="option">
@@ -236,7 +251,7 @@
                     <label for="vr_outing">
                         Поход в VR
                     </label>
-                    <img src="img\vr.webp" alt="Поход в VR">
+                    <img src="img/vr.webp" alt="Поход в VR">
                 </div>
                 
                 <div class="option">
@@ -244,7 +259,7 @@
                     <label for="walk">
                         Прогулка (можно фоток поделать на моментальную печать)
                     </label>
-                    <img src="img\moscow.webp" alt="Прогулка">
+                    <img src="img/moscow.webp" alt="Прогулка">
                 </div>
                 
                 <div class="option">
@@ -252,7 +267,7 @@
                     <label for="pair_dancing">
                         Свой вариант
                     </label>
-                    <img src="img\elon.jpg" alt="Свой вариант">
+                    <img src="img/elon.jpg" alt="Свой вариант">
                 </div>
             </div>
             <div class="time-picker">
@@ -266,6 +281,10 @@
         </form>
     </div>
 
+    
+    <div class="selected-count" id="selected-count">
+        Ура! Уже выбрала <span id="count">0</span>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
@@ -277,44 +296,53 @@
         const optionTimes = {
             "standup": [
                 "8 февраля",
-                // "8 февраля в 21:00",
                 "9 февраля",
-                // "9 февраля в 21:00",
                 "15 февраля",
-                // "15 февраля в 21:00",
                 "16 февраля"
-                // "16 февраля в 21:00"
             ],
             "musical_concert": [
                 "8 февраля"
             ],
-            "exhibition": ["8 февраля",
+            "exhibition": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"],
-                "theatr": [
+                "16 февраля"
+            ],
+            "theatr": [
                 "9 февраля",
-                "15 февраля"],
-            "arcade": ["8 февраля",
-                "9 февраля",
-                "15 февраля",
-                "16 февраля"],
-            "karting": ["8 февраля",
-                "9 февраля",
-                "15 февраля",
-                "16 февраля"],
-            "vr_outing": ["8 февраля",
+                "15 февраля"
+            ],
+            "arcade": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"],
-            "walk": ["8 февраля",
+                "16 февраля"
+            ],
+            "karting": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"],
-            "pair_dancing": ["8 февраля",
+                "16 февраля"
+            ],
+            "vr_outing": [
+                "8 февраля",
                 "9 февраля",
                 "15 февраля",
-                "16 февраля"]
+                "16 февраля"
+            ],
+            "walk": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "pair_dancing": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ]
         };
 
         // Получение элементов формы
@@ -322,6 +350,10 @@
         const datetimeSelect = document.getElementById('datetime');
         const formMessage = document.getElementById('form-message');
         const optionInputs = document.querySelectorAll('input[name="options"]');
+
+        // Новые элементы для отображения выбранного количества
+        const selectedCountDiv = document.getElementById('selected-count');
+        const countSpan = document.getElementById('count');
 
         // Функция для обновления доступных времен
         function updateAvailableTimes() {
@@ -350,6 +382,9 @@
                     datetimeSelect.appendChild(option);
                 });
             }
+
+            // Обновление количества выбранных опций
+            updateSelectedCount();
         }
 
         // Функция для вычисления доступных времен
@@ -398,7 +433,7 @@
             }
 
             if (!selectedDatetime) {
-                displayMessage('Дата и время (можно и не тут)', 'error');
+                displayMessage('Пожалуйста, выберите дату и время.', 'error');
                 return;
             }
 
@@ -427,8 +462,24 @@
             formMessage.className = type === 'success' ? 'success-message' : 'error-message';
         }
 
-        // Инициализация доступных времен при загрузке страницы
-        window.onload = updateAvailableTimes;
+        // Функция для обновления количества выбранных опций и отображения окна
+        function updateSelectedCount() {
+            const selectedCount = Array.from(optionInputs)
+                                        .filter(input => input.checked)
+                                        .length;
+            if (selectedCount > 0) {
+                countSpan.textContent = selectedCount;
+                selectedCountDiv.style.display = 'block';
+            } else {
+                selectedCountDiv.style.display = 'none';
+            }
+        }
+
+        // Инициализация доступных времен и скрытие окна при загрузке страницы
+        window.onload = function() {
+            updateAvailableTimes();
+            selectedCountDiv.style.display = 'none';
+        };
     </script>
 </body>
 </html>
