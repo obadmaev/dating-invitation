@@ -63,7 +63,7 @@
         h1 {
             /* font-family: 'Great Vibes', cursive; */
             color: #E0FFFF; /* Нежный розовый цвет */
-            font-size: 48px;
+            font-size: 60px;
             margin-bottom: 20px;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
         }
@@ -71,7 +71,7 @@
         .options h3 {
             font-family: 'Roboto', sans-serif;
             color: #E0FFFF; /* Светло-розовый цвет */
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 1.4em;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
         }
@@ -124,17 +124,32 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
+        /* Новая стилизация для подписи над изображением */
+        .image-caption {
+            position: absolute;
+            top: 10px; /* Отступ сверху */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6); /* Полупрозрачный фон для лучшей читаемости */
+            color: #E0FFFF; /* Цвет текста */
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 1em;
+            z-index: 3; /* Поверх изображения и метки */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
         /* Эффект при выборе */
-        .option input[type="checkbox"]:checked + label {
-            background: rgba(47, 79, 79, 0.8); /* Изменение фона при выборе на оранжево-красный */
+        .option input[type="checkbox"]:checked + .image-caption {
+            background: rgba(0, 100, 0, 0.8); /* Изменение фона при выборе */
             color: #ffffff;
         }
 
         /* Усиленная подсветка выбранного изображения */
-        .option input[type="checkbox"]:checked + label + img {
-            border: 3px solid #2F4F4F; /* Красная рамка */
+        .option input[type="checkbox"]:checked + .image-caption + label + img {
+            border: 3px solid #006400; /* Красная рамка */
             transform: scale(0.98);
-            box-shadow: 0 0 20px #2F4F4F;
+            box-shadow: 0 0 20px #006400;
         }
 
         .time-picker {
@@ -144,7 +159,7 @@
 
         .time-picker h3 {
             font-family: 'Roboto', sans-serif;
-            color: #2F4F4F; /* Светло-розовый цвет */
+            color: #FFFFFF; /* Светло-розовый цвет */
             margin-bottom: 12px;
             font-size: 1.3em;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
@@ -189,12 +204,12 @@
         }
 
         button:hover {
-            background-color: #c71585; /* Темно-розовый при наведении */
+            background-color: #006400; /* Темно-розовый при наведении */
             transform: translateY(-2px);
         }
 
         .success-message {
-            color: #4caf50; /* Зеленый цвет для успеха */
+            color: #006400; /* Зеленый цвет для успеха */
             margin-top: 20px;
             font-family: 'Casagrande Reclame', sans-serif;
             font-size: 1.1em;
@@ -262,6 +277,10 @@
                 font-size: 16px;
                 padding: 10px 15px;
             }
+            .image-caption {
+                font-size: 0.9em;
+                padding: 4px 12px;
+            }
         }
 
     </style>
@@ -271,18 +290,20 @@
         <h1>Приглашение на свидание</h1>
         <form id="invitation-form">
             <div class="options">
-                <h3>Предлагаю подобранные мной варианты (можно выбрать несколько), нужно нажимать на картинки</h3>
+                <h3>Предлагаю подобранные мной варианты (можно выбрать несколько), нужно нажимать на текст картинок</h3>
                 
                 <div class="option">
                     <input type="checkbox" id="standup" name="options" value="Stand-up">
+                    <div class="image-caption">StandUp</div>
                     <label for="standup">
-                        Stand-up: Сергеич Камеди Бар, на Stand-up я ни разу не выходил, но можно попробовать: выходные 18/21ч
+                        Сергеич Камеди Бар, на StandUp я ни разу не выходил, но можно попробовать: выходные 18/21ч
                     </label>
                     <img src="img/sergei-kutergin-sergeich.jpg" alt="Stand-up">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="musical_concert" name="options" value="Музыкальный концерт">
+                    <div class="image-caption">Музыкальный концерт</div>
                     <label for="musical_concert">
                         Big Love Show 08.02 в 19:00, Билан, Зиверт
                     </label>
@@ -291,14 +312,16 @@
                 
                 <div class="option">
                     <input type="checkbox" id="exhibition" name="options" value="Выставка">
+                    <div class="image-caption">Выставка</div>
                     <label for="exhibition">
-                        Выставка: в Москве их куча открылось, как пример, выставка "Сады" в пространстве "Мох"
+                        в Москве их куча открылось, как пример, выставка "Сады" в пространстве "Мох"
                     </label>
                     <img src="img/moh.jpg" alt="Выставка">
                 </div>
 
                 <div class="option">
                     <input type="checkbox" id="theatr" name="options" value="Театр">
+                    <div class="image-caption">Театр</div>
                     <label for="theatr">
                         Мюзикл "В Джазе только девушки" 9/15 фев 19:00
                     </label>
@@ -307,40 +330,45 @@
                 
                 <div class="option">
                     <input type="checkbox" id="arcade" name="options" value="Игровые автоматы/аттракционы">
+                    <div class="image-caption">Игровые автоматы/аттракционы</div>
                     <label for="arcade">
-                        Игровые автоматы/аттракционы (знаю место на Южной, либо Остров мечты)
+                        знаю место на Южной, либо Остров мечты
                     </label>
                     <img src="img/auto.jpg" alt="Игровые автоматы/аттракционы">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="karting" name="options" value="Картинг">
+                    <div class="image-caption">Картинг</div>
                     <label for="karting">
-                        Картинг (тоже не был ни разу)
+                        тоже не был ни разу
                     </label>
                     <img src="img/cart.jpg" alt="Картинг">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="vr_outing" name="options" value="Поход в VR">
+                    <div class="image-caption">Поход в VR</div>
                     <label for="vr_outing">
-                        Поход в VR
+                        или в just dance поиграть
                     </label>
                     <img src="img/vr.webp" alt="Поход в VR">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="walk" name="options" value="Прогулка">
+                    <div class="image-caption">Прогулка</div>
                     <label for="walk">
-                        Прогулка (можно фоток поделать на моментальную печать)
+                        можно фоток поподелать на моментальную печать, я закажу фотик хахах
                     </label>
                     <img src="img/moscow.webp" alt="Прогулка">
                 </div>
                 
                 <div class="option">
                     <input type="checkbox" id="pair_dancing" name="options" value="Свой вариант">
+                    <div class="image-caption">Свой вариант</div>
                     <label for="pair_dancing">
-                        Свой вариант
+                        куда писать ты знаешь
                     </label>
                     <img src="img/elon.jpg" alt="Свой вариант">
                 </div>
