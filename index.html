@@ -20,7 +20,8 @@
             color: #f0f0f0; /* Светлый текст */
             margin: 0;
             padding: 0;
-            /* Убираем flex-центрирование, чтобы позволить изображениям занимать всю ширину */
+            position: relative; /* Для позиционирования салютов */
+            /* overflow: hidden; Удалено, чтобы позволить прокрутку */
         }
 
         .container {
@@ -31,6 +32,8 @@
             width: 100%; /* Занимает всю ширину */
             box-sizing: border-box;
             text-align: center;
+            position: relative; /* Для обеспечения позиции над салютами */
+            z-index: 2; /* Обеспечивает, что контент будет над салютами */
         }
 
         h1 {
@@ -180,6 +183,17 @@
             transition: opacity 0.3s ease;
         }
 
+        /* Контейнер для салютов */
+        #fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Позволяет взаимодействовать с элементами под салютами */
+            z-index: 1; /* Находится под основным контентом */
+        }
+
         /* Мобильные стили */
         @media (max-width: 800px) {
             .option label {
@@ -207,6 +221,8 @@
     </style>
 </head>
 <body>
+    <div id="fireworks-container"></div> 
+
     <div class="container">
         <h1>Приглашение</h1>
         <form id="invitation-form">
@@ -224,7 +240,7 @@
                 <div class="option">
                     <input type="checkbox" id="musical_concert" name="options" value="Музыкальный концерт">
                     <label for="musical_concert">
-                        Big Love Show 08.02 в 19:00, Билан, зиверт
+                        Big Love Show 08.02 в 19:00, Билан, Зиверт
                     </label>
                     <img src="img/bigloveshow.png" alt="Музыкальный концерт">
                 </div>
@@ -286,9 +302,9 @@
                 </div>
             </div>
             <div class="time-picker">
-                <h3>Выбери дату и время:</h3>
+                <h3>Выбери дату:</h3>
                 <select id="datetime" name="datetime" required>
-                    <option value="">--Выберите дату и время--</option>
+                    <option value="">--Выбери дату--</option>
                 </select>
             </div>
             <button type="submit">Отправить</button>
@@ -300,6 +316,9 @@
     <div class="selected-count" id="selected-count">
         Ура, уже выбрала <span id="count">0</span>
     </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fireworks-js/2.1.0/fireworks.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
@@ -370,6 +389,55 @@
         const selectedCountDiv = document.getElementById('selected-count');
         const countSpan = document.getElementById('count');
 
+        // Инициализация Fireworks
+        let fireworks;
+        function initFireworks() {
+            const container = document.getElementById('fireworks-container');
+            fireworks = new Fireworks.default(container, {
+                rocketsPoint: {
+                    min: 50,
+                    max: 50
+                },
+                createRocket: function(x, y) {
+                    return {
+                        x: x,
+                        y: y,
+                        speed: 2 + Math.random() * 2,
+                        angle: Math.random() * 360,
+                        color: {
+                            r: Math.floor(Math.random() * 256),
+                            g: Math.floor(Math.random() * 256),
+                            b: Math.floor(Math.random() * 256)
+                        },
+                        decay: 0.015 + Math.random() * 0.015,
+                        brightness: 50 + Math.random() * 50,
+                        rocketsPoint: {
+                            min: 100,
+                            max: 100
+                        }
+                    };
+                },
+                minRockets: 5,
+                maxRockets: 20,
+                rocketSpawnInterval: 100,
+                numParticles: 100,
+                explosionMinHeight: 0.2,
+                explosionMaxHeight: 0.9
+            });
+        }
+
+        // Запуск Fireworks
+        function startFireworks() {
+            if (!fireworks) {
+                initFireworks();
+            }
+            fireworks.start();
+            // Остановка салютов через 5 секунд
+            setTimeout(() => {
+                fireworks.stop();
+            }, 5000);
+        }
+
         // Функция для обновления доступных времен
         function updateAvailableTimes() {
             // Сбор выбранных вариантов
@@ -381,7 +449,7 @@
             const availableTimes = getAvailableTimes(selectedOptions);
 
             // Очистка текущих опций времени
-            datetimeSelect.innerHTML = '<option value="">--Выберите дату и время--</option>';
+            datetimeSelect.innerHTML = '<option value="">--Выбери дату--</option>';
 
             if (availableTimes.length === 0) {
                 // Если нет доступных времен
@@ -444,7 +512,7 @@
             }
 
             if (!selectedDatetime) {
-                displayMessage('Пожалуйста, выберите дату и время.', 'error');
+                displayMessage('Пожалуйста, выбери дату.', 'error');
                 return;
             }
 
@@ -461,6 +529,8 @@
                     form.reset();
                     // После сброса формы обновляем доступные времена
                     updateAvailableTimes();
+                    // Запуск салютов
+                    startFireworks();
                 }, function(error) {
                     console.log('FAILED...', error);
                     displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
@@ -484,7 +554,7 @@
                 selectedCountDiv.style.opacity = '1';
             } else {
                 selectedCountDiv.style.display = 'none';
-                selectedCountDiv.style.opacity = '0';
+                countSpan.textContent = '0';
             }
         }
 

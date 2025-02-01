@@ -71,6 +71,9 @@
             height: auto;
             object-fit: cover;
             display: block;
+            transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для подсветки */
+            position: relative; /* Для применения z-index */
+            z-index: 1; /* Низкий z-index для изображения */
         }
 
         /* Наложение текста на изображение */
@@ -86,12 +89,23 @@
             font-size: 1.5em;
             text-align: center;
             width: 80%;
+            z-index: 2; /* Высокий z-index для метки */
         }
 
         /* Эффект при выборе */
         .option input[type="checkbox"]:checked + label {
             background: rgba(0, 100, 0, 0.8); /* Изменение фона при выборе */
             color: #FFFFFF;
+        }
+
+        /* Усиленная подсветка выбранного изображения */
+        .option input[type="checkbox"]:checked + label + img {
+            /* Фиксированная громоздкая зеленая рамка */
+            border: 5px solid #006400;
+            /* Лёгкое увеличение размера изображения при выборе */
+            transform: scale(0.97);
+            /* Лёгкий светящийся эффект */
+            box-shadow: 0 0 20px #006400;
         }
 
         .time-picker {
@@ -122,7 +136,7 @@
         }
 
         button {
-            background-color: #000000; /* цвет кнопки */
+            background-color: #000000; /* Цвет кнопки */
             color: #ffffff;
             border: none;
             padding: 15px 30px;
@@ -163,6 +177,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             display: none; /* Скрыто по умолчанию */
             z-index: 1000;
+            transition: opacity 0.3s ease;
         }
 
         /* Мобильные стили */
@@ -196,7 +211,7 @@
         <h1>Приглашение</h1>
         <form id="invitation-form">
             <div class="options">
-                <h3>Предлагаю подобранные мной варианты (есть возможность выбрать несколько)</h3>
+                <h3>Предлагаю подобранные мной варианты (есть возможность выбрать несколько), нужно нажимать на картинки</h3>
                 
                 <div class="option">
                     <input type="checkbox" id="standup" name="options" value="Stand-up">
@@ -271,9 +286,9 @@
                 </div>
             </div>
             <div class="time-picker">
-                <h3>Выбери дату и время:</h3>
+                <h3>Выбери дату:</h3>
                 <select id="datetime" name="datetime" required>
-                    <option value="">--Выберите дату и время--</option>
+                    <option value="">--Выбери дату--</option>
                 </select>
             </div>
             <button type="submit">Отправить</button>
@@ -283,7 +298,7 @@
 
     
     <div class="selected-count" id="selected-count">
-        Ура! Уже выбрала <span id="count">0</span>
+        Ура, уже выбрала <span id="count">0</span>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -389,16 +404,12 @@
 
         // Функция для вычисления доступных времен
         function getAvailableTimes(selectedOptions) {
-            // Фильтруем варианты, которые имеют конкретные времена
-            const specificOptions = selectedOptions.filter(opt => !optionTimes[opt].includes("Any time"));
-
-            if (specificOptions.length === 0) {
-                // Если ни один выбранный вариант не имеет конкретного времени
-                return ["Any time"];
+            if (selectedOptions.length === 0) {
+                return [];
             }
 
             // Получаем массив массивов доступных времен для каждого конкретного варианта
-            const specificTimesArrays = specificOptions.map(opt => optionTimes[opt]);
+            const specificTimesArrays = selectedOptions.map(opt => optionTimes[opt]);
 
             // Вычисляем пересечение всех доступных времен
             let intersection = specificTimesArrays[0];
@@ -433,7 +444,7 @@
             }
 
             if (!selectedDatetime) {
-                displayMessage('Пожалуйста, выберите дату и время.', 'error');
+                displayMessage('Пожалуйста, выбери дату.', 'error');
                 return;
             }
 
@@ -470,8 +481,10 @@
             if (selectedCount > 0) {
                 countSpan.textContent = selectedCount;
                 selectedCountDiv.style.display = 'block';
+                selectedCountDiv.style.opacity = '1';
             } else {
                 selectedCountDiv.style.display = 'none';
+                selectedCountDiv.style.opacity = '0';
             }
         }
 
