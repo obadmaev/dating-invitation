@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приглашение на свидание</title>
     <style>
+        /* Подключение шрифта Winter Belly */
+        @font-face {
+            font-family: 'Winter Belly';
+            src: url('fonts/WinterBelly-Regular.woff2') format('woff2'),
+                 url('fonts/WinterBelly-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Winter Belly', sans-serif;
             background-color: #f0f8ff;
             margin: 0;
             padding: 0;
@@ -20,21 +29,24 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             padding: 20px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             text-align: center;
         }
         h1 {
             color: #333;
+            font-family: 'Winter Belly', sans-serif;
         }
         .options {
             margin: 20px 0;
             text-align: left;
+            font-family: 'Winter Belly', sans-serif;
         }
         .option {
             margin-bottom: 15px;
             display: flex;
             align-items: center;
+            font-family: 'Winter Belly', sans-serif;
         }
         .option img {
             width: 80px;
@@ -46,12 +58,14 @@
         .time-picker {
             margin: 20px 0;
             text-align: left;
+            font-family: 'Winter Belly', sans-serif;
         }
         select, textarea {
             padding: 10px;
             width: 100%;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-family: 'Winter Belly', sans-serif;
         }
         button {
             background-color: #ff69b4;
@@ -61,6 +75,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            font-family: 'Winter Belly', sans-serif;
         }
         button:hover {
             background-color: #ff1493;
@@ -68,10 +83,12 @@
         .success-message {
             color: green;
             margin-top: 20px;
+            font-family: 'Winter Belly', sans-serif;
         }
         .error-message {
             color: red;
             margin-top: 20px;
+            font-family: 'Winter Belly', sans-serif;
         }
         @media (max-width: 600px) {
             .container {
@@ -92,25 +109,68 @@
         <form id="invitation-form">
             <div class="options">
                 <h3>Выбери варианты:</h3>
+                
                 <div class="option">
-                    <input type="checkbox" id="dinner" name="options" value="Ужин в уютном ресторане">
-                    <label for="dinner">
-                        <img src="https://via.placeholder.com/80" alt="Ресторан">
-                        Ужин в уютном ресторане
+                    <input type="checkbox" id="standup" name="options" value="Stand-up">
+                    <label for="standup">
+                        <img src="https://via.placeholder.com/80" alt="Stand-up">
+                        Stand-up
                     </label>
                 </div>
+                
                 <div class="option">
-                    <input type="checkbox" id="park" name="options" value="Прогулка в парке">
-                    <label for="park">
-                        <img src="https://via.placeholder.com/80" alt="Парк">
-                        Прогулка в парке
+                    <input type="checkbox" id="musical_concert" name="options" value="Музыкальный концерт">
+                    <label for="musical_concert">
+                        <img src="https://via.placeholder.com/80" alt="Музыкальный концерт">
+                        Музыкальный концерт
                     </label>
                 </div>
+                
                 <div class="option">
-                    <input type="checkbox" id="museum" name="options" value="Посещение музея">
-                    <label for="museum">
-                        <img src="https://via.placeholder.com/80" alt="Музей">
-                        Посещение музея
+                    <input type="checkbox" id="exhibition" name="options" value="Выставка">
+                    <label for="exhibition">
+                        <img src="https://via.placeholder.com/80" alt="Выставка">
+                        Выставка
+                    </label>
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="arcade" name="options" value="Игровые автоматы/аттракционы">
+                    <label for="arcade">
+                        <img src="https://via.placeholder.com/80" alt="Игровые автоматы/аттракционы">
+                        Игровые автоматы/аттракционы
+                    </label>
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="karting" name="options" value="Картинг">
+                    <label for="karting">
+                        <img src="https://via.placeholder.com/80" alt="Картинг">
+                        Картинг
+                    </label>
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="vr_outing" name="options" value="Поход в VR">
+                    <label for="vr_outing">
+                        <img src="https://via.placeholder.com/80" alt="Поход в VR">
+                        Поход в VR
+                    </label>
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="walk" name="options" value="Прогулка">
+                    <label for="walk">
+                        <img src="https://via.placeholder.com/80" alt="Прогулка">
+                        Прогулка
+                    </label>
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="pair_dancing" name="options" value="Мастер-класс по парным танцам">
+                    <label for="pair_dancing">
+                        <img src="https://via.placeholder.com/80" alt="Мастер-класс по парным танцам">
+                        Мастер-класс по парным танцам
                     </label>
                 </div>
             </div>
@@ -118,10 +178,6 @@
                 <h3>Выбери дату и время:</h3>
                 <select id="datetime" name="datetime" required>
                     <option value="">--Выберите дату и время--</option>
-                    <option value="8 февраля в 18:00">8 февраля в 18:00</option>
-                    <option value="9 февраля в 19:00">9 февраля в 19:00</option>
-                    <option value="15 февраля в 17:00">15 февраля в 17:00</option>
-                    <option value="16 февраля в 20:00">16 февраля в 20:00</option>
                 </select>
             </div>
             <button type="submit">Пригласить</button>
@@ -129,25 +185,111 @@
         </form>
     </div>
 
-    
+
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
         (function(){
-            emailjs.init("hyg9PpKemFq4zy5eq"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
+            emailjs.init("YOUR_USER_ID"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
         })();
 
-        document.getElementById('invitation-form').addEventListener('submit', function(event) {
+        // Определение доступных времен для каждого варианта
+        const optionTimes = {
+            "standup": [
+                "8 февраля в 18:00",
+                "8 февраля в 21:00",
+                "9 февраля в 18:00",
+                "9 февраля в 21:00",
+                "15 февраля в 18:00",
+                "15 февраля в 21:00",
+                "16 февраля в 18:00",
+                "16 февраля в 21:00"
+            ],
+            "musical_concert": [
+                "8 февраля в 19:00"
+            ],
+            "exhibition": ["anytime"],
+            "arcade": ["anytime"],
+            "karting": ["anytime"],
+            "vr_outing": ["anytime"],
+            "walk": ["anytime"],
+            "pair_dancing": ["anytime"]
+        };
+
+        // Получение элементов формы
+        const form = document.getElementById('invitation-form');
+        const datetimeSelect = document.getElementById('datetime');
+        const formMessage = document.getElementById('form-message');
+        const optionInputs = document.querySelectorAll('input[name="options"]');
+
+        // Функция для обновления доступных времен
+        function updateAvailableTimes() {
+            // Сбор выбранных вариантов
+            const selectedOptions = Array.from(optionInputs)
+                                        .filter(input => input.checked)
+                                        .map(input => input.id);
+
+            // Получение доступных времен
+            const availableTimes = getAvailableTimes(selectedOptions);
+
+            // Очистка текущих опций времени
+            datetimeSelect.innerHTML = '<option value="">--Выберите дату и время--</option>';
+
+            if (availableTimes.length === 0) {
+                // Если нет доступных времен
+                datetimeSelect.innerHTML += '<option value="">Нет доступных времен для выбранных вариантов</option>';
+                datetimeSelect.disabled = true;
+            } else {
+                datetimeSelect.disabled = false;
+                // Добавление доступных времен в селект
+                availableTimes.forEach(time => {
+                    const option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = time;
+                    datetimeSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Функция для вычисления доступных времен
+        function getAvailableTimes(selectedOptions) {
+            // Фильтруем варианты, которые имеют конкретные времена
+            const specificOptions = selectedOptions.filter(opt => !optionTimes[opt].includes("anytime"));
+
+            if (specificOptions.length === 0) {
+                // Если ни один выбранный вариант не имеет конкретного времени
+                return ["Any time"];
+            }
+
+            // Получаем массив массивов доступных времен для каждого конкретного варианта
+            const specificTimesArrays = specificOptions.map(opt => optionTimes[opt]);
+
+            // Вычисляем пересечение всех доступных времен
+            let intersection = specificTimesArrays[0];
+            for(let i = 1; i < specificTimesArrays.length; i++) {
+                intersection = intersection.filter(time => specificTimesArrays[i].includes(time));
+            }
+
+            return intersection;
+        }
+
+        // Добавление обработчиков событий для чекбоксов
+        optionInputs.forEach(input => {
+            input.addEventListener('change', updateAvailableTimes);
+        });
+
+        // Обработка отправки формы
+        form.addEventListener('submit', function(event) {
             event.preventDefault();
 
             // Сбор выбранных опций
-            const selectedOptions = [];
-            document.querySelectorAll('input[name="options"]:checked').forEach((checkbox) => {
-                selectedOptions.push(checkbox.value);
-            });
+            const selectedOptions = Array.from(optionInputs)
+                                        .filter(input => input.checked)
+                                        .map(input => input.value);
 
             // Получение выбранной даты и времени
-            const selectedDatetime = document.getElementById('datetime').value;
+            const selectedDatetime = datetimeSelect.value;
 
+            // Валидация
             if (selectedOptions.length === 0) {
                 displayMessage('Пожалуйста, выберите хотя бы один вариант.', 'error');
                 return;
@@ -164,34 +306,27 @@
                 datetime: selectedDatetime,
             };
 
-            emailjs.send('service_smdj74c', 'template_cb6tk7i', templateParams)
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     displayMessage('Ваше приглашение отправлено!', 'success');
-                    document.getElementById('invitation-form').reset();
+                    form.reset();
+                    // После сброса формы обновляем доступные времена
+                    updateAvailableTimes();
                 }, function(error) {
                     console.log('FAILED...', error);
                     displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
                 });
-
-                emailjs.send('service_smdj74c', 'template_jw8oi5l', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    displayMessage('Ваше приглашение отправлено!', 'success');
-                    document.getElementById('invitation-form').reset();
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
-                });
-
-
         });
 
+        // Функция для отображения сообщений
         function displayMessage(message, type) {
-            const messageDiv = document.getElementById('form-message');
-            messageDiv.textContent = message;
-            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+            formMessage.textContent = message;
+            formMessage.className = type === 'success' ? 'success-message' : 'error-message';
         }
+
+        // Инициализация доступных времен при загрузке страницы
+        window.onload = updateAvailableTimes;
     </script>
 </body>
 </html>
