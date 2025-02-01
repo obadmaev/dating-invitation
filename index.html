@@ -20,7 +20,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             padding: 20px;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
             text-align: center;
         }
@@ -29,19 +29,25 @@
         }
         .options {
             margin: 20px 0;
+            text-align: left;
         }
         .option {
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
         .option img {
-            width: 100%;
-            height: auto;
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
             border-radius: 5px;
+            margin-right: 10px;
         }
         .time-picker {
             margin: 20px 0;
+            text-align: left;
         }
-        input[type="datetime-local"] {
+        select, textarea {
             padding: 10px;
             width: 100%;
             border: 1px solid #ccc;
@@ -59,6 +65,14 @@
         button:hover {
             background-color: #ff1493;
         }
+        .success-message {
+            color: green;
+            margin-top: 20px;
+        }
+        .error-message {
+            color: red;
+            margin-top: 20px;
+        }
         @media (max-width: 600px) {
             .container {
                 padding: 15px;
@@ -75,36 +89,96 @@
 <body>
     <div class="container">
         <h1>Хочешь пойти со мной на свидание?</h1>
-        <div class="options">
-            <div class="option">
-                <h3>Ужин в уютном ресторане</h3>
-                <img src="https://via.placeholder.com/350x200" alt="Ресторан">
+        <form id="invitation-form">
+            <div class="options">
+                <h3>Выбери варианты:</h3>
+                <div class="option">
+                    <input type="checkbox" id="dinner" name="options" value="Ужин в уютном ресторане">
+                    <label for="dinner">
+                        <img src="https://via.placeholder.com/80" alt="Ресторан">
+                        Ужин в уютном ресторане
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="park" name="options" value="Прогулка в парке">
+                    <label for="park">
+                        <img src="https://via.placeholder.com/80" alt="Парк">
+                        Прогулка в парке
+                    </label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="museum" name="options" value="Посещение музея">
+                    <label for="museum">
+                        <img src="https://via.placeholder.com/80" alt="Музей">
+                        Посещение музея
+                    </label>
+                </div>
             </div>
-            <div class="option">
-                <h3>Прогулка в парке</h3>
-                <img src="https://via.placeholder.com/350x200" alt="Парк">
+            <div class="time-picker">
+                <h3>Выбери дату и время:</h3>
+                <select id="datetime" name="datetime" required>
+                    <option value="">--Выберите дату и время--</option>
+                    <option value="8 февраля в 18:00">8 февраля в 18:00</option>
+                    <option value="9 февраля в 19:00">9 февраля в 19:00</option>
+                    <option value="15 февраля в 17:00">15 февраля в 17:00</option>
+                    <option value="16 февраля в 20:00">16 февраля в 20:00</option>
+                </select>
             </div>
-            <div class="option">
-                <h3>Посещение музея</h3>
-                <img src="https://via.placeholder.com/350x200" alt="Музей">
-            </div>
-        </div>
-        <div class="time-picker">
-            <label for="datetime">Выбери время:</label>
-            <input type="datetime-local" id="datetime" name="datetime">
-        </div>
-        <button onclick="submitInvitation()">Пригласить</button>
+            <button type="submit">Пригласить</button>
+            <div id="form-message"></div>
+        </form>
     </div>
 
+    
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
-        function submitInvitation() {
-            const datetime = document.getElementById('datetime').value;
-            if (datetime) {
-                alert('Спасибо! Ваше приглашение отправлено на ' + datetime);
-                // Здесь можно добавить код для отправки данных на сервер
-            } else {
-                alert('Пожалуйста, выберите дату и время.');
+        (function(){
+            emailjs.init("hyg9PpKemFq4zy5eq"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
+        })();
+
+        document.getElementById('invitation-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Сбор выбранных опций
+            const selectedOptions = [];
+            document.querySelectorAll('input[name="options"]:checked').forEach((checkbox) => {
+                selectedOptions.push(checkbox.value);
+            });
+
+            // Получение выбранной даты и времени
+            const selectedDatetime = document.getElementById('datetime').value;
+
+            if (selectedOptions.length === 0) {
+                displayMessage('Пожалуйста, выберите хотя бы один вариант.', 'error');
+                return;
             }
+
+            if (!selectedDatetime) {
+                displayMessage('Пожалуйста, выберите дату и время.', 'error');
+                return;
+            }
+
+            // Подготовка данных для EmailJS
+            const templateParams = {
+                options: selectedOptions.join(', '),
+                datetime: selectedDatetime,
+            };
+
+            emailjs.send('service_smdj74c', 'template_1nhll0q', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    displayMessage('Ваше приглашение отправлено!', 'success');
+                    document.getElementById('invitation-form').reset();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
+                });
+        });
+
+        function displayMessage(message, type) {
+            const messageDiv = document.getElementById('form-message');
+            messageDiv.textContent = message;
+            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
         }
     </script>
 </body>
