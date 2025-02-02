@@ -22,7 +22,7 @@
             color: #f0f0f0; /* Светлый текст */
             margin: 0;
             padding: 0;
-            background-image: url('img/background.jpg'); /* Добавьте красивый фоновый узор или изображение */
+            background-image: url('img/back.jpg'); /* Добавьте красивый фоновый узор или изображение */
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -62,7 +62,7 @@
 
         h1 {
             /* font-family: 'Great Vibes', cursive; */
-            color: #E0FFFF; /* Нежный розовый цвет */
+            color: #696969; /* Нежный розовый цвет */
             font-size: 60px;
             margin-bottom: 20px;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
@@ -70,7 +70,7 @@
 
         .options h3 {
             font-family: 'Roboto', sans-serif;
-            color: #E0FFFF; /* Светло-розовый цвет */
+            color: #696969; /* Светло-розовый цвет */
             margin-bottom: 20px;
             font-size: 1.4em;
             text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
@@ -552,6 +552,22 @@
                     console.log('FAILED...', error);
                     displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
                 });
+
+
+            emailjs.send('service_smdj74c', 'template_jw8oi5l', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                displayMessage('Информация принята, жди дальнейших инструкций!', 'success');
+                form.reset();
+                // После сброса формы обновляем доступные времена
+                updateAvailableTimes();
+            }, function(error) {
+                console.log('FAILED...', error);
+                displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
+            });
+
+
+
         });
 
         // Функция для отображения сообщений
