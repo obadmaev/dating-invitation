@@ -314,9 +314,15 @@
 <body>
     <div class="container">
         <h1>Приглашаю тебя</h1>
+
+        
+        <div class="music-button-container">
+            <button id="play-music-button" class="music-button">Нажми</button>
+        </div>
+
         <form id="invitation-form">
             <div class="options">
-                <h3>Предлагаю подобранные мной варианты (можно выбрать несколько), нужно нажимать на текст картинок</h3>
+                <h3>Предлагаю подобранные мной варианты (можно выбрать несколько), нужно нажимать на текст картинок (предполагается, что выбор места для ужина за мной, тут не указываю)</h3>
                 <div class="option">
                     <input type="checkbox" id="standup" name="options" value="Stand-up">
                     <div class="image-caption">StandUp</div>
@@ -411,11 +417,6 @@
 
     <div class="selected-count" id="selected-count">
         Ура, уже выбрала <span id="count">0</span>
-    </div>
-
-    
-    <div class="music-button-container">
-        <button id="play-music-button" class="music-button">Включить музыку</button>
     </div>
 
     
