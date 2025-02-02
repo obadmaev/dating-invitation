@@ -247,6 +247,28 @@
             transform: translateY(0);
         }
 
+        /* Кнопка для воспроизведения музыки */
+        .music-button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .music-button {
+            background-color: #696969; /* Зеленый цвет кнопки */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .music-button:hover {
+            background-color: #696969; /* Темно-зеленый при наведении */
+            transform: scale(1.05);
+        }
+
         /* Мобильные стили */
         @media (max-width: 800px) {
             .option label {
@@ -280,6 +302,10 @@
             .image-caption {
                 font-size: 0.9em;
                 padding: 4px 12px;
+            }
+            .music-button {
+                width: 80%;
+                padding: 10px;
             }
         }
 
@@ -383,16 +409,48 @@
         </form>
     </div>
 
-    
     <div class="selected-count" id="selected-count">
         Ура, уже выбрала <span id="count">0</span>
     </div>
+
+    
+    <div class="music-button-container">
+        <button id="play-music-button" class="music-button">Включить музыку</button>
+    </div>
+
+    
+    <audio id="background-music" loop>
+        <source src="music/background.mp3" type="audio/mpeg">
+        
+        <source src="music/background.ogg" type="audio/ogg">
+        Ваш браузер не поддерживает элемент audio.
+    </audio>
 
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
         (function(){
             emailjs.init("hyg9PpKemFq4zy5eq"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
         })();
+
+        // Получаем элемент аудио и кнопку
+        const backgroundMusic = document.getElementById('background-music');
+        const playMusicButton = document.getElementById('play-music-button');
+
+        // Устанавливаем громкость на 0.3
+        backgroundMusic.volume = 0.3;
+
+        // Добавляем обработчик события для кнопки воспроизведения музыки
+        playMusicButton.addEventListener('click', function() {
+            backgroundMusic.play()
+                .then(() => {
+                    // Скрываем кнопку после успешного воспроизведения
+                    playMusicButton.style.display = 'none';
+                })
+                .catch((error) => {
+                    console.error('Ошибка воспроизведения музыки:', error);
+                    alert('Не удалось воспроизвести музыку. Пожалуйста, попробуйте позже.');
+                });
+        });
 
         // Определение доступных времен для каждого варианта
         const optionTimes = {
@@ -541,6 +599,7 @@
                 datetime: selectedDatetime,
             };
 
+            // Отправка данных через EmailJS
             emailjs.send('service_smdj74c', 'template_cb6tk7i', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
@@ -553,20 +612,17 @@
                     displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
                 });
 
-
             emailjs.send('service_smdj74c', 'template_jw8oi5l', templateParams)
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-                displayMessage('Информация принята, жди дальнейших инструкций!', 'success');
-                form.reset();
-                // После сброса формы обновляем доступные времена
-                updateAvailableTimes();
-            }, function(error) {
-                console.log('FAILED...', error);
-                displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
-            });
-
-
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    displayMessage('Информация принята, жди дальнейших инструкций!', 'success');
+                    form.reset();
+                    // После сброса формы обновляем доступные времена
+                    updateAvailableTimes();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
+                });
 
         });
 
@@ -585,6 +641,7 @@
                 countSpan.textContent = selectedCount;
                 selectedCountDiv.classList.add('show');
             } else {
+                countSpan.textContent = '0';
                 selectedCountDiv.classList.remove('show');
             }
         }
