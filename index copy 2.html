@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение</title>
+    <style>
+        /* Подключение шрифта Casagrande Reclame и декоративного шрифта для заголовков */
+        @font-face {
+            font-family: 'Casagrande Reclame';
+            src: url('fonts/Coats Bold Italic.otf') format('woff2'),
+                 url('fonts/Coats Bold Italic.otf') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Casagrande Reclame', sans-serif;
+            background-color: #121212; /* Темный фон */
+            color: #f0f0f0; /* Светлый текст */
+            margin: 0;
+            padding: 0;
+            background-image: url('img/back.jpg'); /* Добавьте красивый фоновый узор или изображение */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .container {
+            background-color: rgba(30, 30, 30, 0.9); /* Темный контейнер с прозрачностью */
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 900px;
+            margin: 50px auto;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Добавление декоративных элементов */
+        .container::before, .container::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -50px;
+            left: -50px;
+            z-index: 0;
+        }
+
+        .container::after {
+            top: auto;
+            bottom: -50px;
+            left: auto;
+            right: -50px;
+        }
+
+        h1 {
+            /* font-family: 'Great Vibes', cursive; */
+            color: #FFFFFF; /* Нежный розовый цвет */
+            font-size: 60px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .options h3 {
+            font-family: 'Roboto', sans-serif;
+            color: #696969; /* Светло-розовый цвет */
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .option {
+            position: relative;
+            margin-bottom: 30px;
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* Золотая подсветка при наведении */
+        }
+
+        /* Скрываем чекбоксы */
+        .option input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Стилизация изображения */
+        .option img {
+            width: 100%; /* Полная ширина */
+            height: auto;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для подсветки */
+            position: relative; /* Для применения z-index */
+            z-index: 1; /* Низкий z-index для изображения */
+        }
+
+        /* Наложение текста на изображение */
+        .option label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.6); /* Полупрозрачный фон для лучшей читаемости */
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            text-align: center;
+            width: 80%;
+            z-index: 2; /* Высокий z-index для метки */
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Новая стилизация для подписи над изображением */
+        .image-caption {
+            position: absolute;
+            top: 10px; /* Отступ сверху */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6); /* Полупрозрачный фон для лучшей читаемости */
+            color: #E0FFFF; /* Цвет текста */
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 1em;
+            z-index: 3; /* Поверх изображения и метки */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Эффект при выборе */
+        .option input[type="checkbox"]:checked + .image-caption {
+            background: rgba(0, 100, 0, 0.8); /* Изменение фона при выборе */
+            color: #ffffff;
+        }
+
+        /* Усиленная подсветка выбранного изображения */
+        .option input[type="checkbox"]:checked + .image-caption + label + img {
+            border: 3px solid #006400; /* Красная рамка */
+            transform: scale(0.98);
+            box-shadow: 0 0 20px #006400;
+        }
+
+        .time-picker {
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .time-picker h3 {
+            font-family: 'Roboto', sans-serif;
+            color: #FFFFFF; /* Светло-розовый цвет */
+            margin-bottom: 12px;
+            font-size: 1.3em;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        select, textarea {
+            padding: 12px 15px;
+            width: 100%;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background-color: #2c2c2c;
+            color: #f0f0f0;
+            font-family: 'Casagrande Reclame', sans-serif;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            border: 1px solid #2F4F4F; /* Розовая рамка при фокусе */
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            outline: none;
+        }
+
+        select:disabled {
+            background-color: #696969;
+            color: #888;
+        }
+
+        button {
+            background-color: #2F4F4F; /* Ярко-розовый цвет кнопки */
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Casagrande Reclame', sans-serif;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #006400; /* Темно-розовый при наведении */
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            color: #006400; /* Зеленый цвет для успеха */
+            margin-top: 20px;
+            font-family: 'Casagrande Reclame', sans-serif;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .error-message {
+            color: #f44336; /* Красный цвет для ошибок */
+            margin-top: 20px;
+            font-family: 'Casagrande Reclame', sans-serif;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Всплывающее окно для количества выбранных опций */
+        .selected-count {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 192, 203, 0.9); /* Светло-розовый фон */
+            color: #4b0082; /* Индиго цвет текста */
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            display: none; /* Скрыто по умолчанию */
+            z-index: 1000;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .selected-count.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Кнопка для воспроизведения музыки */
+        .music-button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .music-button {
+            background-color: #696969; /* Зеленый цвет кнопки */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .music-button:hover {
+            background-color: #696969; /* Темно-зеленый при наведении */
+            transform: scale(1.05);
+        }
+
+        /* Мобильные стили */
+        @media (max-width: 800px) {
+            .option label {
+                font-size: 1.1em;
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+            }
+            h1 {
+                font-size: 32px;
+            }
+            .options h3, .time-picker h3 {
+                font-size: 1.2em;
+            }
+            button {
+                width: 100%;
+            }
+            .option label {
+                font-size: 1em;
+                padding: 8px 20px;
+            }
+            .selected-count {
+                font-size: 16px;
+                padding: 10px 15px;
+            }
+            .image-caption {
+                font-size: 0.9em;
+                padding: 4px 12px;
+            }
+            .music-button {
+                width: 80%;
+                padding: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Приглашаю тебя</h1>
+
+<!--         
+        <div class="music-button-container">
+            <button id="play-music-button" class="music-button">Нажми</button>
+        </div> -->
+
+        <form id="invitation-form">
+            <div class="options">
+                <h3>Предлагаю подобранные мной варианты (можно выбрать несколько), нужно нажимать на текст картинок (предполагается, что выбор места для ужина за мной, тут не указываю)</h3>
+                <div class="option">
+                    <input type="checkbox" id="standup" name="options" value="Stand-up">
+                    <div class="image-caption">StandUp</div>
+                    <label for="standup">
+                        Сергеич Камеди Бар, на StandUp я ни разу не выходил, но можно попробовать: выходные 18/21ч
+                    </label>
+                    <img src="img/sergei-kutergin-sergeich.jpg" alt="Stand-up">
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="musical_concert" name="options" value="Музыкальный концерт">
+                    <div class="image-caption">Музыкальный концерт</div>
+                    <label for="musical_concert">
+                        Big Love Show 08.02 в 19:00, Билан, Зиверт
+                    </label>
+                    <img src="img/bigloveshow.png" alt="Музыкальный концерт">
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="exhibition" name="options" value="Выставка">
+                    <div class="image-caption">Выставка</div>
+                    <label for="exhibition">
+                        в Москве их куча открылось, как пример, выставка "Сады" в пространстве "Мох"
+                    </label>
+                    <img src="img/moh.jpg" alt="Выставка">
+                </div>
+
+                <div class="option">
+                    <input type="checkbox" id="theatr" name="options" value="Театр">
+                    <div class="image-caption">Театр</div>
+                    <label for="theatr">
+                        Мюзикл "В Джазе только девушки" 9/15 фев 19:00
+                    </label>
+                    <img src="img/theat.webp" alt="Театр">
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="arcade" name="options" value="Игровые автоматы/аттракционы">
+                    <div class="image-caption">Игровые автоматы/аттракционы</div>
+                    <label for="arcade">
+                        знаю место на Южной, либо Остров мечты
+                    </label>
+                    <img src="img/auto.jpg" alt="Игровые автоматы/аттракционы">
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="karting" name="options" value="Картинг">
+                    <div class="image-caption">Картинг</div>
+                    <label for="karting">
+                        тоже не был ни разу
+                    </label>
+                    <img src="img/cart.jpg" alt="Картинг">
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="vr_outing" name="options" value="Поход в VR">
+                    <div class="image-caption">Поход в VR</div>
+                    <label for="vr_outing">
+                        или в just dance поиграть
+                    </label>
+                    <img src="img/vr.webp" alt="Поход в VR">
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="walk" name="options" value="Прогулка">
+                    <div class="image-caption">Прогулка</div>
+                    <label for="walk">
+                        можно фоток поподелать на моментальную печать, я закажу фотик хахах
+                    </label>
+                    <img src="img/moscow.webp" alt="Прогулка">
+                </div>
+                
+                <div class="option">
+                    <input type="checkbox" id="pair_dancing" name="options" value="Свой вариант">
+                    <div class="image-caption">Свой вариант</div>
+                    <label for="pair_dancing">
+                        куда писать ты знаешь
+                    </label>
+                    <img src="img/elon.jpg" alt="Свой вариант">
+                </div>
+            </div>
+            <div class="time-picker">
+                <h3>Выбери дату:</h3>
+                <select id="datetime" name="datetime" required>
+                    <option value="">--Выбери дату--</option>
+                </select>
+            </div>
+            <button type="submit">Отправить</button>
+            <div id="form-message"></div>
+        </form>
+    </div>
+
+    <div class="selected-count" id="selected-count">
+        Ура, уже выбрала <span id="count">0</span>
+    </div>
+
+    
+    <audio id="background-music" loop>
+        <source src="music/back3.mp3" type="audio/mpeg">
+        
+        <source src="music/background.ogg" type="audio/ogg">
+        Ваш браузер не поддерживает элемент audio.
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("hyg9PpKemFq4zy5eq"); // Замените YOUR_USER_ID на ваш User ID из EmailJS
+        })();
+
+        // Получаем элемент аудио и кнопку
+        const backgroundMusic = document.getElementById('background-music');
+        const playMusicButton = document.getElementById('play-music-button');
+
+        // Устанавливаем громкость на 0.3
+        backgroundMusic.volume = 0.3;
+
+        // Добавляем обработчик события для кнопки воспроизведения музыки
+        playMusicButton.addEventListener('click', function() {
+            backgroundMusic.play()
+                .then(() => {
+                    // Скрываем кнопку после успешного воспроизведения
+                    playMusicButton.style.display = 'none';
+                })
+                .catch((error) => {
+                    console.error('Ошибка воспроизведения музыки:', error);
+                    alert('Не удалось воспроизвести музыку. Пожалуйста, попробуйте позже.');
+                });
+        });
+
+        // Определение доступных времен для каждого варианта
+        const optionTimes = {
+            "standup": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "musical_concert": [
+                "8 февраля"
+            ],
+            "exhibition": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "theatr": [
+                "9 февраля",
+                "15 февраля"
+            ],
+            "arcade": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "karting": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "vr_outing": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "walk": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ],
+            "pair_dancing": [
+                "8 февраля",
+                "9 февраля",
+                "15 февраля",
+                "16 февраля"
+            ]
+        };
+
+        // Получение элементов формы
+        const form = document.getElementById('invitation-form');
+        const datetimeSelect = document.getElementById('datetime');
+        const formMessage = document.getElementById('form-message');
+        const optionInputs = document.querySelectorAll('input[name="options"]');
+
+        // Новые элементы для отображения выбранного количества
+        const selectedCountDiv = document.getElementById('selected-count');
+        const countSpan = document.getElementById('count');
+
+        // Функция для обновления доступных времен
+        function updateAvailableTimes() {
+            // Сбор выбранных вариантов
+            const selectedOptions = Array.from(optionInputs)
+                                        .filter(input => input.checked)
+                                        .map(input => input.id);
+
+            // Получение доступных времен
+            const availableTimes = getAvailableTimes(selectedOptions);
+
+            // Очистка текущих опций времени
+            datetimeSelect.innerHTML = '<option value="">--Выбери дату--</option>';
+
+            if (availableTimes.length === 0) {
+                // Если нет доступных времен
+                datetimeSelect.innerHTML += '<option value="">Нет доступных времен для выбранных вариантов</option>';
+                datetimeSelect.disabled = true;
+            } else {
+                datetimeSelect.disabled = false;
+                // Добавление доступных времен в селект
+                availableTimes.forEach(time => {
+                    const option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = time;
+                    datetimeSelect.appendChild(option);
+                });
+            }
+
+            // Обновление количества выбранных опций
+            updateSelectedCount();
+        }
+
+        // Функция для вычисления доступных времен
+        function getAvailableTimes(selectedOptions) {
+            if (selectedOptions.length === 0) {
+                return [];
+            }
+
+            // Получаем массив массивов доступных времен для каждого конкретного варианта
+            const specificTimesArrays = selectedOptions.map(opt => optionTimes[opt]);
+
+            // Вычисляем пересечение всех доступных времен
+            let intersection = specificTimesArrays[0];
+            for(let i = 1; i < specificTimesArrays.length; i++) {
+                intersection = intersection.filter(time => specificTimesArrays[i].includes(time));
+            }
+
+            return intersection;
+        }
+
+        // Добавление обработчиков событий для чекбоксов
+        optionInputs.forEach(input => {
+            input.addEventListener('change', updateAvailableTimes);
+        });
+
+        // Обработка отправки формы
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Сбор выбранных опций
+            const selectedOptions = Array.from(optionInputs)
+                                        .filter(input => input.checked)
+                                        .map(input => input.value);
+
+            // Получение выбранной даты и времени
+            const selectedDatetime = datetimeSelect.value;
+
+            // Валидация
+            if (selectedOptions.length === 0) {
+                displayMessage('Пожалуйста, выберите минимум 1 вариант.', 'error');
+                return;
+            }
+
+            if (!selectedDatetime) {
+                displayMessage('Пожалуйста, выберите дату.', 'error');
+                return;
+            }
+
+            // Подготовка данных для EmailJS
+            const templateParams = {
+                options: selectedOptions.join(', '),
+                datetime: selectedDatetime,
+            };
+
+            // Отправка данных через EmailJS
+            emailjs.send('service_smdj74c', 'template_cb6tk7i', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    displayMessage('Информация принята, жди дальнейших инструкций!', 'success');
+                    form.reset();
+                    // После сброса формы обновляем доступные времена
+                    updateAvailableTimes();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
+                });
+
+            emailjs.send('service_smdj74c', 'template_jw8oi5l', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    displayMessage('Информация принята, жди дальнейших инструкций!', 'success');
+                    form.reset();
+                    // После сброса формы обновляем доступные времена
+                    updateAvailableTimes();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    displayMessage('Ошибка при отправке. Пожалуйста, попробуйте позже.', 'error');
+                });
+
+        });
+
+        // Функция для отображения сообщений
+        function displayMessage(message, type) {
+            formMessage.textContent = message;
+            formMessage.className = type === 'success' ? 'success-message' : 'error-message';
+        }
+
+        // Функция для обновления количества выбранных опций и отображения окна
+        function updateSelectedCount() {
+            const selectedCount = Array.from(optionInputs)
+                                        .filter(input => input.checked)
+                                        .length;
+            if (selectedCount > 0) {
+                countSpan.textContent = selectedCount;
+                selectedCountDiv.classList.add('show');
+            } else {
+                countSpan.textContent = '0';
+                selectedCountDiv.classList.remove('show');
+            }
+        }
+
+        // Инициализация доступных времен и скрытие окна при загрузке страницы
+        window.onload = function() {
+            updateAvailableTimes();
+            selectedCountDiv.style.display = 'none';
+        };
+    </script>
+</body>
+</html>
